@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.scss';
 
-import Header from './Components/Header/Header';
 import Home from './Pages/Home/Home';
 import Page404 from './Pages/Page404/Page404';
 import Login from './Views/Login/Login';
@@ -11,9 +10,9 @@ import Login from './Views/Login/Login';
 
 function App() {
   return (
-    <Routes>
+    <Routes>      
       <Route path='/' element={ <Home /> }>
-        <Route path='' element={ <Login /> } ></Route>
+        <Route index element={ <Login /> } ></Route>
         <Route path="login" element={ <Login /> } ></Route>
         <Route path='*' element={ <Page404 /> } ></Route>
       </Route>

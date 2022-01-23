@@ -1,4 +1,5 @@
 $header-height: 64px;
+$blue-primary: #2196F3;
 .header {
     position: relative;
     background: #fff;
@@ -8,39 +9,49 @@ $header-height: 64px;
 
 .header_wrapper {
     height: $header-height;
+    padding: 0 50px;
 }
 
 .header_logo {
     height: $header-height;
     max-width: 25%;
-    margin: 0;
+    margin-right: 50px;
     float: left;
     line-height: $header-height;
     img {
         height: 35px;
         margin: auto;
-        padding-left: 30px;
     }
 }
 
-.header_tab {
-    float: right;
+.header_tab_left,
+.header_tab_right,
+.header_tab_user {
     box-sizing: border-box;
     height: $header-height;
-    padding-right: 30px;
     max-width: 75%;
+}
+
+.header_tab_left {
+    float: left;
+}
+
+.header_tab_right,
+.header_tab_user {
+    float: right;
 }
 
 .header_item {
     display: inline-block;
-    min-width: 64px;
-    height: 64px;
+    min-width: $header-height;
+    height: $header-height;
     padding: 0 12px;
-    line-height: 64px;
+    line-height: $header-height;
     text-align: center;
     font-size: 16px;
+    cursor: pointer;
     a {
-        height: 64px;
+        height: $header-height;
         color: #212121;
     }
 }
@@ -48,8 +59,9 @@ $header-height: 64px;
 .header_item_active {
     position: relative;
     a {
-        color: #2196F3;
+        color: $blue-primary;
     }
+    // 使用伪类添加下边框
     &::after {
         content: '';
         position: absolute;
@@ -57,6 +69,11 @@ $header-height: 64px;
         right: 12px;
         bottom: 0;
         height: 2px;
-        background: #2196F3;
+        background: $blue-primary;
     }
+}
+
+.header_tab_user {
+    box-sizing: border-box;
+    width: 30px;
 }

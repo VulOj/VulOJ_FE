@@ -1,95 +1,102 @@
-import React, { MouseEvent } from 'react'
+import React, { CSSProperties, MouseEvent } from 'react'
 
 import styles from './Header.module.scss'
 
 import logo from '../../Images/VULOJ_LOGO.png'
-import { Link } from 'react-router-dom'
-import { getClass } from '../../Utils/utils';
+import { UserOutlined } from '@ant-design/icons';
+import { Menu } from 'antd';
+import { NavigateFunction } from 'react-router-dom';
+import { withRouter } from '../../Utils/withRouter';
 
 interface IHeaderProp {
-	items: Array<{
-		name: string,
-		link: string
-	}>
+  items: Array<{
+    name: string,
+    link: string
+  }>,
+  navigate: NavigateFunction
 }
 
 interface IHeaderState {
-	selected: number,
-	hovering: number,
+  selectedKey: string
 }
 
 class Header extends React.Component<IHeaderProp, IHeaderState> {
-	constructor(props: IHeaderProp) {
-		super(props);
+  constructor(props: IHeaderProp) {
+    super(props);
+    
+    this.state = {
+      selectedKey: '/login'
+    }
+  }
 
-		this.state = {
-			selected: 0,
-			hovering: -1
-		}
-	}
+  handleClick = (e: any) => {
+    this.setState({
+      selectedKey: e.key
+    });
+    this.props.navigate(e.key);
+  }
 
-	handleMouseOver = (key: number) => (event: MouseEvent) => {
-		event.preventDefault();
+  render() {
+    const { selectedKey } = this.state;
 
-		this.setState({
-			hovering: key
-		});
-	}
+    const menuItemStyle: CSSProperties = {
+      height: '100%',
+      lineHeight: '64px',
+      fontSize: '16px'
+    }
 
-	handleMouseOut = (key: number) => (event: MouseEvent) => {
-		event.preventDefault();
+    return (
+      <header className={styles['header']}>
+        <div className={styles['header_wrapper']}>
+          <div className={styles['header_logo']}>
+            <img src={logo} alt="vuloj_logo" />
+          </div>
 
-		this.setState({
-			hovering: -1
-		});
-	}
+          <div className={styles['header_tab_left']}>
+            <Menu onClick={this.handleClick} selectedKeys={[selectedKey]} mode='horizontal'
+              style={{ borderBottom: 'none' }}
+            >
+              {
+                this.props.items.map((value, _) => {
+                  return (
+                    <Menu.Item key={value.link} style={menuItemStyle}
+                    >
+                      {value.name}
+                    </Menu.Item>
+                  )
+                })
+              }
+            </Menu>
+          </div>
 
-	handleClick = (key: number) => (event: MouseEvent) => {
-		event.preventDefault();
+          <div className={styles['header_tab_user']}>
+            <UserOutlined style={{
+              width: '100%',
+              display: 'block',
+              marginTop: 20,
+              fontSize: '22px',
+              textAlign: 'center',
+              cursor: 'pointer'
+            }} />
+          </div>
 
-		this.setState({
-			selected: key
-		});
-	}
+          <div className={styles['header_tab_right']}>
+            <Menu onClick={this.handleClick} selectedKeys={[selectedKey]} mode='horizontal'
+              style={{ borderBottom: 'none' }}
+            >
+              <Menu.Item key='/register' style={menuItemStyle}>
+                注册
+              </Menu.Item>
+              <Menu.Item key='/login' style={menuItemStyle}>
+                登录
+              </Menu.Item>
+            </Menu>
+          </div>
 
-	render() {
-		const { selected, hovering } = this.state;
-
-		return (
-			<header className={styles['header']}>
-				<div className={styles['header_wrapper']}>
-					<div className={styles['header_logo']}>
-						<img src={logo} alt="vuloj_logo" />
-					</div>
-
-					<div className={styles['header_tab']}>
-						<ul className={styles['tabs']}>
-							{
-								this.props.items.map((value, index) => {
-									return (
-										<li
-											key={index}
-											className={
-												getClass(styles, [
-													{ name: 'header_item', require: true },
-													{ name: 'header_item_active', require: index === hovering || index === selected }
-												])
-											}
-											onMouseOver={this.handleMouseOver(index)}
-											onMouseOut={this.handleMouseOut(index)}
-											onClick={this.handleClick(index)}
-										>
-											<Link className={styles['header_tab_link']} to={value.link}>{value.name}</Link>
-										</li>
-									)
-								})
-							}
-						</ul>
-					</div>
-				</div>
-			</header>
-		)
-	}
+        </div>
+      </header>
+    )
+  }
 }
 
-export default Header;
+export default withRouter(Header);
