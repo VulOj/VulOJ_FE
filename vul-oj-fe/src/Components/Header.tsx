@@ -1,12 +1,12 @@
-import React, { CSSProperties, MouseEvent } from 'react'
+import React, { CSSProperties } from 'react'
 
-import styles from './Header.module.scss'
+import styles from '../Styles/Header.module.scss'
 
-import logo from '../../Images/VULOJ_LOGO.png'
+import logo from '../Images/VULOJ_LOGO.png'
 import { UserOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { NavigateFunction } from 'react-router-dom';
-import { withRouter } from '../../Utils/withRouter';
+import { withRouter } from '../Utils/withRouter';
 
 interface IHeaderProp {
   items: Array<{

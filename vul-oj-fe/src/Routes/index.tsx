@@ -1,8 +1,8 @@
 import React, { lazy, ReactNode } from "react";
 
 // 懒加载
-const Login = lazy(() => import('../Views/Login/Login'));
-const Page404 = lazy(() => import('../Pages/Page404/Page404'));
+const Login = lazy(() => import('../Views/Login'));
+const Page404 = lazy(() => import('../Pages/Page404'));
 
 interface IRouter {
     title: string,
