@@ -9,6 +9,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 2. react-router-dom
 3. antd
 4. sass
+5. axios
 
 ## Install dependencies
 ```
