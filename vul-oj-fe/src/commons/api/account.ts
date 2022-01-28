@@ -1,4 +1,4 @@
-import ajax from '../Utils/request'
+import ajax from '../utils/request'
 
 export const login = (email: string, password: string) => {
     return ajax({

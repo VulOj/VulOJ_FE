@@ -2,10 +2,10 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.scss';
 
-import Home from './Pages/Home';
-import Page404 from './Pages/Page404';
-import Login from './Views/Login';
-import Register from './Views/Register';
+import Home from 'src/pages/Home';
+import Page404 from 'src/pages/Home/views/404';
+import Login from 'src/pages/Home/views/Login';
+import Register from 'src/pages/Home/views/Register';
 
 // import styles from './test.module.scss'
 

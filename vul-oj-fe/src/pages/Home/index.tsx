@@ -1,7 +1,7 @@
 import { Layout } from "antd";
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Header from "../Components/Header";
+import Header from "./components/Header";
 
 class Home extends React.Component {
     

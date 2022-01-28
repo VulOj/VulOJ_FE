@@ -1,12 +1,12 @@
 import React, { CSSProperties } from 'react'
 
-import styles from '../Styles/Header.module.scss'
+import styles from '../styles/Header.module.scss'
 
-import logo from '../Images/VULOJ_LOGO.png'
+import logo from 'src/commons/images/VULOJ_LOGO.png'
 import { UserOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { NavigateFunction } from 'react-router-dom';
-import { withRouter } from '../Utils/withRouter';
+import { withRouter } from 'src/commons/utils/withRouter';
 
 interface IHeaderProp {
   items: Array<{
