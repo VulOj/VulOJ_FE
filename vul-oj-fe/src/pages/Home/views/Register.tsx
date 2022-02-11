@@ -2,23 +2,43 @@ import React from 'react'
 
 import styles from '../styles/Register.module.scss';
 import publicStyles from 'src/commons/styles/public.module.scss';
-import { Button, Form, Input } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Col, Form, Input, Row } from 'antd';
+import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { checkEmail } from 'src/commons/utils/utils';
+import { IFormValidate } from 'src/commons/interfaces';
 
 interface IRegisterProp {
 
 }
 
 interface IRegisterState {
-
+  validatePassword: IFormValidate
 }
 
 class Register extends React.Component<IRegisterProp, IRegisterState> {
   isFirstSubmit = true;
 
+  constructor(props: IRegisterProp) {
+    super(props);
+
+    this.state = {
+      validatePassword: {
+        validateStatus: 'validating',
+        help: ''
+      }
+    }
+  }
+
   handleFinish = (form: any) => {
     this.isFirstSubmit = false;
+  }
+
+  handleFocus = () => {
+
+  }
+
+  handleBlur = () => {
+
   }
 
   validate = (name: string) => (_: any, value: any) => {
@@ -46,6 +66,8 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
 
 
   render() {
+    const { validatePassword } = this.state;
+
     return (
       <div className={publicStyles['container']}>
         <div className={publicStyles['content_small']}>
@@ -63,10 +85,71 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
               <Input
                 size="large"
                 prefix={<UserOutlined />}
-                placeholder="请输入注册邮箱"
+                placeholder="输入你的邮箱地址"
               />
             </Form.Item>
 
+            <Form.Item>
+              <Row gutter={8}>
+                <Col span={16}>
+                  <Form.Item
+                    name="captcha"
+                    noStyle
+                    rules={[{ required: true, message: '请输入验证码' }]}
+                  >
+                    <Input
+                      size='large'
+                      prefix={<MailOutlined />}
+                      placeholder='邮箱验证码'
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Button
+                    size='large'
+                    style={{ width: '100%' }}
+                  >发送邮件</Button>
+                </Col>
+              </Row>
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              {...validatePassword}
+              rules={[{ validator: this.validate('password') }]}
+            >
+              <Input.Password
+                size="large"
+                prefix={<LockOutlined />}
+                type="password"
+                placeholder="输入你的密码"
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="confirm"
+              {...validatePassword}
+              rules={[{ validator: this.validate('password') }]}
+            >
+              <Input.Password
+                size="large"
+                prefix={<LockOutlined />}
+                type="password"
+                placeholder="确认你的密码"
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}
+              />
+            </Form.Item>
+
+            <Form.Item name="agreement" valuePropName="checked">
+              <Checkbox>我已阅读并同意
+                <a href=".">
+                  《用户协议》
+                </a>
+              </Checkbox>
+            </Form.Item>
 
             <Form.Item>
               <Button

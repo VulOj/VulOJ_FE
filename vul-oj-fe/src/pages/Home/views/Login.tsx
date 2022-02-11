@@ -75,7 +75,7 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
     }
   }
 
-  validate2 = (name: string) => (_: any, value: any) => {
+  validate = (name: string) => (_: any, value: any) => {
     if (this.isFirstSubmit) {
       return Promise.resolve();
     }
@@ -137,7 +137,7 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
           >
             <Form.Item
               name="email"
-              rules={[{ validator: this.validate2('email') }]}
+              rules={[{ validator: this.validate('email') }]}
             >
               <Input
                 size="large"
@@ -148,7 +148,7 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
             <Form.Item
               name="password"
               {...validatePassword}
-              rules={[{ validator: this.validate2('password') }]}
+              rules={[{ validator: this.validate('password') }]}
             >
               <Input.Password
                 size="large"
