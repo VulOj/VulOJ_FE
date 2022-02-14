@@ -1,0 +1,12 @@
+@import "src/commons/styles/public.module.scss";
+.discussion_list {
+    @include card;
+    padding: 4px 24px;
+}
+
+.label_list {
+    @include card;
+    padding: 20px 24px;
+}
+
+.label_list_header {}

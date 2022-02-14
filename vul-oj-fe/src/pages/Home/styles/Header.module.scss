@@ -9,7 +9,9 @@ $blue-primary: #2196F3;
 
 .header_wrapper {
     height: $header-height;
-    padding: 0 50px;
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
 }
 
 .header_logo {

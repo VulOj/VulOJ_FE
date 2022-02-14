@@ -5,7 +5,7 @@ import publicStyles from 'src/commons/styles/public.module.scss';
 import { Button, Checkbox, Col, Form, Input, Row } from 'antd';
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { checkEmail } from 'src/commons/utils/utils';
-import { IFormValidate } from 'src/commons/interfaces';
+import { IFormValidate } from 'src/commons/interface';
 
 interface IRegisterProp {
 

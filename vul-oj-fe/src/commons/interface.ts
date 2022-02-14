@@ -5,3 +5,8 @@ export interface IFormValidate {
     hasFeedback?: boolean,
     help?: string
 }
+
+export interface IBlockTag {
+    name: string,
+    display: string
+}

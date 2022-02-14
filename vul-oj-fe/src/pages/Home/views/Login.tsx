@@ -7,7 +7,7 @@ import styles from '../styles/Login.module.scss';
 import publicStyles from 'src/commons/styles/public.module.scss'
 import { login } from 'src/commons/api/account';
 import { set, checkEmail, checkPassword } from 'src/commons/utils/utils';
-import { IFormValidate } from 'src/commons/interfaces';
+import { IFormValidate } from 'src/commons/interface';
 
 interface ILoginProp {
 

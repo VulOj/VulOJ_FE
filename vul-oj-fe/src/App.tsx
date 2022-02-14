@@ -6,6 +6,7 @@ import Home from 'src/pages/Home';
 import Page404 from 'src/pages/Home/views/404';
 import Login from 'src/pages/Home/views/Login';
 import Register from 'src/pages/Home/views/Register';
+import Discuss from './pages/Home/views/Discuss';
 
 // import styles from './test.module.scss'
 
@@ -16,6 +17,7 @@ function App() {
         <Route index element={<Login />} ></Route>
         <Route path='login' element={<Login />} ></Route>
         <Route path='register' element={<Register />} ></Route>
+        <Route path='discuss' element={<Discuss />}></Route>
         <Route path='*' element={<Page404 />} ></Route>
       </Route>
     </Routes>

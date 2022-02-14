@@ -12,7 +12,7 @@ class Home extends React.Component {
           items={[
             { name: '页面一', link: '/page1' },
             { name: '页面二', link: '/page2' },
-            { name: '页面三', link: '/page3' }
+            { name: '讨论', link: '/discuss' }
           ]}
         >
         </Header>
