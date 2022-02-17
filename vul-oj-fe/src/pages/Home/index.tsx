@@ -3,9 +3,15 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 
-class Home extends React.Component {
+interface IHomeProp {
+  num: number
+}
+
+class Home extends React.Component<IHomeProp> {
+
 
   render() {
+    console.log(this.props.num);
     return (
       <Layout className="layout">
         <Header
@@ -16,6 +22,7 @@ class Home extends React.Component {
           ]}
         >
         </Header>
+        {this.props.num}
 
         <Outlet />
       </Layout>
