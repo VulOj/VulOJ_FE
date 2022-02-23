@@ -5,7 +5,7 @@ import styles from '../styles/Header.module.scss'
 import logo from 'src/commons/images/VULOJ_LOGO.png'
 import { UserOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
-import { NavigateFunction } from 'react-router-dom';
+import { Link, NavigateFunction } from 'react-router-dom';
 import { withRouter } from 'src/commons/utils/withRouter';
 
 interface IHeaderProp {
@@ -13,6 +13,7 @@ interface IHeaderProp {
     name: string,
     link: string
   }>,
+  selected: string,
   navigate: NavigateFunction
 }
 
@@ -23,7 +24,7 @@ interface IHeaderState {
 class Header extends React.Component<IHeaderProp, IHeaderState> {
   constructor(props: IHeaderProp) {
     super(props);
-    
+
     this.state = {
       selectedKey: '/login'
     }
@@ -61,7 +62,10 @@ class Header extends React.Component<IHeaderProp, IHeaderState> {
                   return (
                     <Menu.Item key={value.link} style={menuItemStyle}
                     >
-                      {value.name}
+                      <Link to={value.link}>
+
+                        {value.name}
+                      </Link>
                     </Menu.Item>
                   )
                 })

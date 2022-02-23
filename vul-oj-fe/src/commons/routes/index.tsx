@@ -1,27 +1,48 @@
-import React, { lazy, ReactNode } from "react";
+import { lazy, ReactNode, Suspense } from "react";
+import { RouteObject } from "react-router-dom";
+import Home from "src/pages/Home";
 
 // 懒加载
-const Login = lazy(() => import('../../pages/Home/views/Login'));
-const Page404 = lazy(() => import('../../pages/Home/views/404'));
+const Login = lazy(() => import('src/pages/Home/views/Login'));
+const Register = lazy(() => import('src/pages/Home/views/Register'));
+const Discuss = lazy(() => import('src/pages/Home/views/Discuss'));
+const Page404 = lazy(() => import('src/pages/Home/views/404'));
 
-interface IRouter {
-    title: string,
-    path: string,
-    component?: ReactNode,
-    children?: IRouter[]
+const lazyLoad = (children: ReactNode) => {
+  return (
+    <Suspense fallback={<>loading</>}>
+      {children}
+    </Suspense>
+  )
 }
 
-const router: IRouter[] = [
-    {
-        path: '/login',
-        title: '登录',
-        component: <Login />
-    },
-    {
+const router: RouteObject[] = [
+  {
+    path: '/',
+    element: <Home />,
+    children: [
+      {
+        index: true,
+        element: lazyLoad(<Login />)
+      },
+      {
+        path: 'login',
+        element: lazyLoad(<Login />)
+      },
+      {
+        path: 'register',
+        element: lazyLoad(<Register />)
+      },
+      {
+        path: 'discuss',
+        element: lazyLoad(<Discuss />)
+      },
+      {
         path: '*',
-        title: '404',
-        component: <Page404 />
-    }
+        element: lazyLoad(<Page404 />)
+      }
+    ]
+  }
 ];
 
 export default router;

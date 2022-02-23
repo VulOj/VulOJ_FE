@@ -9,7 +9,6 @@ import styles from '../styles/Discuss.module.scss'
 const { TabPane } = Tabs;
 
 interface IDiscussProp {
-  setA: any
 }
 
 interface IDiscussState {
@@ -30,8 +29,6 @@ class Discuss extends React.Component<IDiscussProp, IDiscussState> {
     this.state = {
       currentBlock: 'all'
     }
-
-    this.props.setA();
   }
 
   handleSearch = (value: string) => {
