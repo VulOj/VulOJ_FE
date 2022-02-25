@@ -18,27 +18,21 @@ interface IHeaderProp {
 }
 
 interface IHeaderState {
-  selectedKey: string
+
 }
 
 class Header extends React.Component<IHeaderProp, IHeaderState> {
   constructor(props: IHeaderProp) {
     super(props);
 
-    this.state = {
-      selectedKey: '/login'
-    }
   }
 
   handleClick = (e: any) => {
-    this.setState({
-      selectedKey: e.key
-    });
     this.props.navigate(e.key);
   }
 
   render() {
-    const { selectedKey } = this.state;
+    const { selected } = this.props;
 
     const menuItemStyle: CSSProperties = {
       height: '100%',
@@ -54,7 +48,7 @@ class Header extends React.Component<IHeaderProp, IHeaderState> {
           </div>
 
           <div className={styles['header_tab_left']}>
-            <Menu onClick={this.handleClick} selectedKeys={[selectedKey]} mode='horizontal'
+            <Menu onClick={this.handleClick} selectedKeys={[selected]} mode='horizontal'
               style={{ borderBottom: 'none' }}
             >
               {
@@ -85,13 +79,13 @@ class Header extends React.Component<IHeaderProp, IHeaderState> {
           </div>
 
           <div className={styles['header_tab_right']}>
-            <Menu onClick={this.handleClick} selectedKeys={[selectedKey]} mode='horizontal'
+            <Menu onClick={this.handleClick} selectedKeys={[selected]} mode='horizontal'
               style={{ borderBottom: 'none' }}
             >
-              <Menu.Item key='/register' style={menuItemStyle}>
+              <Menu.Item key='register' style={menuItemStyle}>
                 注册
               </Menu.Item>
-              <Menu.Item key='/login' style={menuItemStyle}>
+              <Menu.Item key='login' style={menuItemStyle}>
                 登录
               </Menu.Item>
             </Menu>

@@ -35,7 +35,7 @@ const router: RouteObject[] = [
       },
       {
         path: 'discuss',
-        element: lazyLoad(<Discuss />)
+        element: lazyLoad(<Discuss />),
       },
       {
         path: '*',
