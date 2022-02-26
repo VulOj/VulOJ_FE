@@ -8,6 +8,7 @@ function Home() {
   const [ selected, setSelected ] = useState<string>('');
   const location = useLocation();
 
+  // 解决header菜单高亮问题
   useEffect(() => {
     const routes = matchRoutes(router, location.pathname);
     

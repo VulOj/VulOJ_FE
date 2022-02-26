@@ -4,7 +4,7 @@ import styles from '../styles/Register.module.scss';
 import publicStyles from 'src/commons/styles/public.module.scss';
 import { Button, Checkbox, Col, Form, Input, Row, message } from 'antd';
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
-import { checkEmail } from 'src/commons/utils/utils';
+import { check } from 'src/commons/utils/utils';
 import { IFormValidate } from 'src/commons/interface';
 import { sendVerifyCode } from 'src/commons/api/account';
 
@@ -23,7 +23,7 @@ interface IRegisterState {
   verifyCode: string,
   password: string,
   confirm: string,
-  
+
   // 1-未发送邮件 2-已发送邮件，等待60秒 3-重新发送邮件
   verifyDisabled: boolean
   verifyMessage: string
@@ -52,7 +52,7 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
       },
       validateVerify: {
         validateStatus: 'validating',
-        help:''
+        help: ''
       },
       email: '',
       verifyCode: '',
@@ -88,43 +88,16 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
   handleChange = (name: string) => (e: any) => {
     const validate = this.validate(name);
     const value = e.target.value;
-    switch (name) {
-      case 'email':
-        this.setState({
-          validateEmail: validate(value),
-          email: value
-        });
-        break;
+    
 
-      case 'verify':
-        this.setState({
-          verifyCode: value
-        });
-        break;
 
-      case 'password':
-        this.setState({
-          validatePassword: validate(value),
-          password: value
-        });
-        break;
-      
-      case 'confirm':
-        this.setState({
-          validateConfirm: validate(value),
-          confirm: value
-        });
-        break;
-
-      default:
-        break;
-    }
   }
 
   handleSendVerifyCode = () => {
-    const { email,  } = this.state;
+    const { email } = this.state;
+    this.isFirstSubmit = false;
 
-    if (!checkEmail(email)) {
+    if (!this.validate(email)) {
       this.setState({
         validateEmail: {
           validateStatus: 'error',
@@ -167,49 +140,67 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
   }
 
   // 表单验证
-  validate = (name: string) => (value: any): IFormValidate => {
-    if (this.isFirstSubmit) {
-      return {
-        validateStatus: 'validating',
-        help: ''
-      };
-    }
+  validate = (name: string) => (value: any) => {
+    const { password, confirm } = this.state;
 
-    if (value === undefined || value === '' || value === null) {
-      return {
-        validateStatus: 'error',
-        help: '必填'
-      };
+    if (this.isFirstSubmit) {
+      return true;
     }
 
     switch (name) {
       case 'email': {
-        if (!checkEmail(value))
-          return {
-            validateStatus: 'error',
-            help: '邮箱格式不正确'
-          };
+        let v = check('email')(value);
+        this.setState({
+          validateEmail: v
+        });
+
+        if (v.validateStatus === 'success') {
+          return true;
+        }
         break;
       }
 
+      // case 'verify': {
+      //   if (!checkVerify(value)) {
+      //     return {
+      //       validateStatus: 'error',
+      //       help
+      //     }
+      //   }
+      //   break;
+      // }
+
       case 'password': {
-        
+        let v = check('password')(value);
+        this.setState({
+          validatePassword: v
+        });
+
+        if (v.validateStatus === 'success') {
+          return true;
+        }
         break;
       }
 
       case 'confirm': {
-        
-        break;
+        if (password !== confirm) {
+          this.setState({
+            validateConfirm: {
+              validateStatus: 'error',
+              help: '两次输入密码不一致'
+            }
+          });
+          return false;
+        } else {
+          return true;
+        }
       }
 
       default:
         break;
     }
 
-    return {
-      validateStatus: 'success',
-      help: ''
-    };
+    return false;
   }
 
 

@@ -6,7 +6,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from '../styles/Login.module.scss';
 import publicStyles from 'src/commons/styles/public.module.scss'
 import { login } from 'src/commons/api/account';
-import { set, checkEmail, checkPassword } from 'src/commons/utils/utils';
+import { set, check } from 'src/commons/utils/utils';
 import { IFormValidate } from 'src/commons/interface';
 
 interface ILoginProp {
@@ -14,7 +14,10 @@ interface ILoginProp {
 }
 
 interface ILoginStatus {
+  validateEmail: IFormValidate,
   validatePassword: IFormValidate,
+  password: string,
+  email: string
 }
 
 class Login extends React.Component<ILoginProp, ILoginStatus> {
@@ -26,7 +29,13 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
       validatePassword: {
         validateStatus: 'validating',
         help: ''
-      }
+      },
+      validateEmail: {
+        validateStatus: 'validating',
+        help: ''
+      },
+      password: '',
+      email: ''
     };
   }
 
@@ -43,7 +52,6 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
     )
 
   }
-
 
   // 密码框聚焦时显示密码提示
   handleFocus = (e: any) => {
@@ -75,54 +83,62 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
     }
   }
 
-  validate = (name: string) => (_: any, value: any) => {
+  validate = (name: string) => (value: string) => {
     if (this.isFirstSubmit) {
-      return Promise.resolve();
+      return true;
     }
 
     switch (name) {
       case 'email': {
-        if (value === undefined || value === '' || value === null)
-          return Promise.reject(new Error('请输入邮箱'));
-        else if (!checkEmail(value))
-          return Promise.reject(new Error('邮箱格式不正确'));
+        let v = check('email')(value);
+        this.setState({
+          validateEmail: v
+        });
+
+        if (v.validateStatus === 'success') {
+          return true;
+        }
         break;
       }
 
       case 'password': {
-        if (value === undefined || value === '' || value === null) {
-          this.setState({
-            validatePassword: {
-              validateStatus: 'error'
-            }
-          });
-          return Promise.reject(new Error('请输入密码'));
-        }
-        else if (!checkPassword(value)) {
-          this.setState({
-            validatePassword: {
-              validateStatus: 'error'
-            }
-          });
-          return Promise.reject(new Error('密码长度为8-16位，且必须同时包括数字、字母和特殊符号'));
-        }
-
+        let v = check('password')(value);
         this.setState({
-          validatePassword: {
-            validateStatus: 'success'
-          }
+          validatePassword: v
         });
+
+        if (v.validateStatus === 'success') {
+          return true;
+        }
         break;
       }
 
       default:
         break;
     }
-    return Promise.resolve();
+    return false;
+  }
+
+  handleChange = (name: string) => (e: any) => {
+    const value = e.target.value;
+    this.validate(name)(value);
+
+    switch (name) {
+      case 'email':
+        this.setState({email: value});
+        break;
+
+      case 'password':
+        this.setState({password: value});
+        break;
+    
+      default:
+        break;
+    }
   }
 
   render() {
-    const { validatePassword } = this.state;
+    const { validateEmail, validatePassword, email, password } = this.state;
 
     return (
       <div className={publicStyles['container']}>
@@ -137,25 +153,27 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
           >
             <Form.Item
               name="email"
-              rules={[{ validator: this.validate('email') }]}
+              initialValue={email}
+              {...validateEmail}
             >
               <Input
                 size="large"
                 prefix={<UserOutlined />}
                 placeholder="请输入邮箱"
+                onChange={this.handleChange('email')}
               />
             </Form.Item>
             <Form.Item
               name="password"
+              initialValue={password}
               {...validatePassword}
-              rules={[{ validator: this.validate('password') }]}
             >
               <Input.Password
                 size="large"
                 prefix={<LockOutlined />}
                 type="password"
                 placeholder="请输入密码"
-                // onChange={this.handleChange('password')}
+                onChange={this.handleChange('password')}
                 onFocus={this.handleFocus}
                 onBlur={this.handleBlur}
               />

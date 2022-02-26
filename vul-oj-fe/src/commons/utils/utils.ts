@@ -1,3 +1,5 @@
+import { IFormValidate } from "../interface";
+
 /**
  * 拼接类名
  * @param styles 样式module
@@ -48,33 +50,54 @@ export const clear = () => {
     localStorage.clear();
 }
 
-/**
- * 校验邮箱合法性
- * @param email 需要校验的邮箱
- * @returns 校验结果
- */
-export const checkEmail = (email: string) => {
-    if (email === '' || email === undefined || email === null)
-        return false;
-
-    let reg =
-        new RegExp(/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/);
-
-    return reg.test(email);
+const validateSuccess: IFormValidate = {
+    validateStatus: 'success',
+    help: ''
 }
-
 /**
- * 校验密码合法性
- * 密码规则:长度8-16位, 必须包括数字、英文和特殊符号
- * @param passwd 需要校验的密码
- * @returns 校验结果
+ * 校验表单数据
+ * @param name 数据名
+ * @returns 
  */
-export const checkPassword = (passwd: string) => {
-    if (passwd === '' || passwd === undefined || passwd === null)
-        return false;
+export const check = (name: string) => (value: string): IFormValidate => {
+    switch (name) {
+        case 'email': {
+            if (value === '' || value === undefined || value === null) {
+                return {
+                    validateStatus: 'error',
+                    help: '请输入邮箱'
+                };
+            }
 
-    let reg =
-        new RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/);
+            let reg =
+                new RegExp(/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/);
 
-    return reg.test(passwd);
+            return reg.test(value) ? validateSuccess : {
+                validateStatus: 'error',
+                help: '邮箱格式不正确'
+            };
+        }
+
+        case 'password': {
+            if (value === '' || value === undefined || value === null) {
+                return {
+                    validateStatus: 'error',
+                    help: '请输入密码'
+                };
+            }
+
+            let reg =
+                new RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/);
+
+            return reg.test(value) ? validateSuccess : {
+                validateStatus: 'error',
+                help: '密码长度为8-16位，且必须同时包括数字、字母和特殊符号'
+            };
+        }
+
+        default:
+            break;
+    }
+
+    return validateSuccess;
 }
