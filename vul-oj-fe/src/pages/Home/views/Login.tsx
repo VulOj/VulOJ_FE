@@ -42,6 +42,10 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
   handleFinish = (form: any) => {
     this.isFirstSubmit = false;
 
+    if (!this.validate('all')('')) {
+      return ;
+    }
+
     login(form.email, form.passwd).then(
       response => {
         console.log(response);
@@ -83,7 +87,7 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
     }
   }
 
-  validate = (name: string) => (value: string) => {
+  validate = (name: string) => (value: string): boolean => {
     if (this.isFirstSubmit) {
       return true;
     }
@@ -111,6 +115,14 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
           return true;
         }
         break;
+      }
+
+      case 'all': {
+        const {password, email} = this.state;
+        const validate = this.validate;
+        let v = validate('password')(password);
+        v = validate('email')(email) && v;
+        return v;
       }
 
       default:

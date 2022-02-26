@@ -95,6 +95,23 @@ export const check = (name: string) => (value: string): IFormValidate => {
             };
         }
 
+        case 'verify': {
+            if (value === '' || value === undefined || value === null) {
+                return {
+                    validateStatus: 'error',
+                    help: '请输入邮箱验证码'
+                };
+            }
+
+            let reg =
+                new RegExp(/^\d{4}$/);
+
+            return reg.test(value) ? validateSuccess : {
+                validateStatus: 'error',
+                help: '验证码为四位数字'
+            };
+        }
+
         default:
             break;
     }

@@ -20,7 +20,7 @@ interface IRegisterState {
 
   // 表单数据
   email: string,
-  verifyCode: string,
+  verify: string,
   password: string,
   confirm: string,
 
@@ -55,7 +55,7 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
         help: ''
       },
       email: '',
-      verifyCode: '',
+      verify: '',
       password: '',
       confirm: '',
       verifyDisabled: false,
@@ -75,22 +75,61 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
     this.isFirstSubmit = false;
   }
 
-  // 控制展示密码格式提示
-  handleFocus = () => {
-
+  // 密码框聚焦时显示密码提示
+  handleFocus = (e: any) => {
+    this.setState((prevState) => {
+      return {
+        validatePassword: {
+          ...prevState.validatePassword,
+          help: '密码长度为8-16位，且必须同时包括数字、字母和特殊符号'
+        }
+      }
+    });
   }
 
-  handleBlur = () => {
+  // 密码框失焦时隐藏密码提示
+  handleBlur = (e: any) => {
+    const { validatePassword } = this.state;
+    if (validatePassword.validateStatus === 'validating'
+      || validatePassword.validateStatus === 'success') {
 
+      this.setState((prevStatus) => {
+        return {
+          validatePassword: {
+            ...prevStatus.validatePassword,
+            help: ''
+          }
+        }
+      });
+
+    }
   }
 
   // 表单中的输入框全部为受控组件
   handleChange = (name: string) => (e: any) => {
-    const validate = this.validate(name);
     const value = e.target.value;
-    
+    this.validate(name)(value);
 
+    switch (name) {
+      case 'email':
+        this.setState({ email: value });
+        break;
 
+      case 'verify':
+        this.setState({ verify: value });
+        break;
+
+      case 'password':
+        this.setState({ password: value });
+        break;
+
+      case 'confirm':
+        this.setState({ confirm: value });
+        break;
+
+      default:
+        break;
+    }
   }
 
   handleSendVerifyCode = () => {
@@ -140,7 +179,7 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
   }
 
   // 表单验证
-  validate = (name: string) => (value: any) => {
+  validate = (name: string) => (value: string): boolean => {
     const { password, confirm } = this.state;
 
     if (this.isFirstSubmit) {
@@ -154,21 +193,17 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
           validateEmail: v
         });
 
-        if (v.validateStatus === 'success') {
-          return true;
-        }
-        break;
+        return v.validateStatus === 'success';
       }
 
-      // case 'verify': {
-      //   if (!checkVerify(value)) {
-      //     return {
-      //       validateStatus: 'error',
-      //       help
-      //     }
-      //   }
-      //   break;
-      // }
+      case 'verify': {
+        let v = check('verify')(value);
+        this.setState({
+          validateVerify: v
+        });
+
+        return v.validateStatus === 'success';
+      }
 
       case 'password': {
         let v = check('password')(value);
@@ -176,10 +211,7 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
           validatePassword: v
         });
 
-        if (v.validateStatus === 'success') {
-          return true;
-        }
-        break;
+        return v.validateStatus === 'success';
       }
 
       case 'confirm': {
@@ -196,6 +228,17 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
         }
       }
 
+      case 'all': {
+        const { email, verify, password, confirm } = this.state;
+        const validate = this.validate;
+        let v = validate('email')(email);
+        v = validate('verify')(verify) && v;
+        v = validate('password')(password) && v;
+        v = validate('confirm')(confirm) && v;
+
+        return v;
+      }
+
       default:
         break;
     }
@@ -206,7 +249,9 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
 
 
   render() {
-    const { validatePassword, validateEmail, email, verifyCode, password, confirm, verifyDisabled, verifyMessage } = this.state;
+    const { validatePassword, validateEmail, validateConfirm, validateVerify,
+      email, verify: verifyCode, password, confirm, verifyDisabled, verifyMessage }
+      = this.state;
 
     return (
       <div className={publicStyles['container']}>
@@ -231,20 +276,20 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
               />
             </Form.Item>
 
-            <Form.Item>
-              <Row gutter={8}>
+            <Form.Item style={{ marginBottom: 0 }}>
+              <Row gutter={8} >
                 <Col span={16}>
                   <Form.Item
                     name="captcha"
-                    noStyle
-                    rules={[{ required: true, message: '请输入验证码' }]}
+                    // noStyle
                     initialValue={verifyCode}
+                    {...validateVerify}
                   >
                     <Input
                       size='large'
                       prefix={<MailOutlined />}
                       placeholder='邮箱验证码'
-                      onChange={this.handleChange('verifyCode')}
+                      onChange={this.handleChange('verify')}
                     />
                   </Form.Item>
                 </Col>
@@ -271,6 +316,7 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
                 prefix={<LockOutlined />}
                 type="password"
                 placeholder="输入你的密码"
+                onChange={this.handleChange('password')}
                 onFocus={this.handleFocus}
                 onBlur={this.handleBlur}
               />
@@ -278,7 +324,7 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
 
             <Form.Item
               name="confirm"
-              {...validatePassword}
+              {...validateConfirm}
               initialValue={confirm}
             >
               <Input.Password
@@ -286,8 +332,7 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
                 prefix={<LockOutlined />}
                 type="password"
                 placeholder="确认你的密码"
-                onFocus={this.handleFocus}
-                onBlur={this.handleBlur}
+                onChange={this.handleChange('confirm')}
               />
             </Form.Item>
 
