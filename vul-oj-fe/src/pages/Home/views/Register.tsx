@@ -6,7 +6,7 @@ import { Button, Checkbox, Col, Form, Input, Row, message } from 'antd';
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { check } from 'src/commons/utils/utils';
 import { IFormValidate } from 'src/commons/interface';
-import { sendVerifyCode } from 'src/commons/api/account';
+import { register, sendVerifyCode } from 'src/commons/api/account';
 
 interface IRegisterProp {
 
@@ -73,6 +73,20 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
 
   handleFinish = (form: any) => {
     this.isFirstSubmit = false;
+
+    if (!this.validate('all')('')) {
+      return ;
+    }
+
+    const { email, password, verify: verify_code } = this.state;
+    register(email, password, verify_code).then(
+      response => {
+        console.log(response);
+      },
+      reason => {
+        console.log(reason);
+      }
+    );
   }
 
   // 密码框聚焦时显示密码提示
@@ -134,48 +148,44 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
 
   handleSendVerifyCode = () => {
     const { email } = this.state;
-    this.isFirstSubmit = false;
+    const v = check('email')(email);
+    this.setState({
+      validateEmail: v
+    });
 
-    if (!this.validate(email)) {
-      this.setState({
-        validateEmail: {
-          validateStatus: 'error',
-          help: '邮箱格式不正确'
-        }
-      });
-      return false;
-    } else {
+    if (v.validateStatus === 'success') {
       sendVerifyCode(email).then(
         value => {
           console.log(value.data.msg)
           message.info(value.data.msg);
         },
         reason => {
-
+          message.error(reason);
         }
-      )
-    }
+      );
 
-    this.setState({
-      verifyDisabled: true,
-      verifyMessage: this.coolingTime + 's后重试',
-    })
-    this.timerId = setInterval(() => {
-      this.coolingTime -= 1;
+      // 60秒后重新发送验证码
       this.setState({
-        verifyMessage: this.coolingTime + 's后重试'
-      });
-
-      if (this.coolingTime === 0) {
-        this.coolingTime = 60;
-        clearInterval(this.timerId);
-        this.timerId = null;
+        verifyDisabled: true,
+        verifyMessage: this.coolingTime + 's后重试',
+      })
+      this.timerId = setInterval(() => {
+        this.coolingTime -= 1;
         this.setState({
-          verifyDisabled: false,
-          verifyMessage: '重新发送'
-        })
-      }
-    }, 1000);
+          verifyMessage: this.coolingTime + 's后重试'
+        });
+
+        if (this.coolingTime === 0) {
+          this.coolingTime = 60;
+          clearInterval(this.timerId);
+          this.timerId = null;
+          this.setState({
+            verifyDisabled: false,
+            verifyMessage: '重新发送'
+          })
+        }
+      }, 1000);
+    }
   }
 
   // 表单验证
@@ -224,6 +234,12 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
           });
           return false;
         } else {
+          this.setState({
+            validateConfirm: {
+              validateStatus: 'success',
+              help: ''
+            }
+          });
           return true;
         }
       }
