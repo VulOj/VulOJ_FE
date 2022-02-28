@@ -12,7 +12,7 @@ export const login = (email: string, password: string) => {
     });
 }
 
-export const register = (email: string, password: string, veriify_code: string) => {
+export const register = (email: string, password: string, verify_code: string) => {
     return ajax({
         url: 'auth/signup',
         method: 'post',
@@ -20,7 +20,7 @@ export const register = (email: string, password: string, veriify_code: string) 
         data: qs.stringify({
             email: email,
             password: password,
-            veriify_code: veriify_code
+            verify_code: verify_code
         })
     })
 }

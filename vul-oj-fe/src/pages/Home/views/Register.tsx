@@ -7,9 +7,11 @@ import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { check } from 'src/commons/utils/utils';
 import { IFormValidate } from 'src/commons/interface';
 import { register, sendVerifyCode } from 'src/commons/api/account';
+import { NavigateFunction } from 'react-router-dom';
+import { withRouter } from 'src/commons/utils/withRouter';
 
 interface IRegisterProp {
-
+  navigate: NavigateFunction
 }
 
 interface IRegisterState {
@@ -73,18 +75,26 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
 
   handleFinish = (form: any) => {
     this.isFirstSubmit = false;
-
+        
     if (!this.validate('all')('')) {
-      return ;
+      return;
     }
-
+    
+    if (!form.agreement) {
+      message.error('请先阅读并同意《用户协议》！');
+      return;
+    }
+    
     const { email, password, verify: verify_code } = this.state;
     register(email, password, verify_code).then(
       response => {
         console.log(response);
+        message.success(response.data.msg);
+        this.props.navigate('login');
       },
       reason => {
         console.log(reason);
+        message.error(reason.response.data.msg);
       }
     );
   }
@@ -146,6 +156,7 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
     }
   }
 
+  // 发送验证码
   handleSendVerifyCode = () => {
     const { email } = this.state;
     const v = check('email')(email);
@@ -156,11 +167,10 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
     if (v.validateStatus === 'success') {
       sendVerifyCode(email).then(
         value => {
-          console.log(value.data.msg)
-          message.info(value.data.msg);
+          message.success(value.data.msg);
         },
         reason => {
-          message.error(reason);
+          message.error(reason.response.msg);
         }
       );
 
@@ -190,7 +200,7 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
 
   // 表单验证
   validate = (name: string) => (value: string): boolean => {
-    const { password, confirm } = this.state;
+    const { password } = this.state;
 
     if (this.isFirstSubmit) {
       return true;
@@ -225,7 +235,15 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
       }
 
       case 'confirm': {
-        if (password !== confirm) {
+        if (value === '' || value === undefined || value === null) {
+          this.setState({
+            validateConfirm: {
+              validateStatus: 'error',
+              help: '请输入确认密码'
+            }
+          });
+          return false;
+        } else if (password !== value) {
           this.setState({
             validateConfirm: {
               validateStatus: 'error',
@@ -278,10 +296,16 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
             name="register"
             onFinish={this.handleFinish}
             autoComplete="off"
+            initialValues={{
+              email: email,
+              captcha: verifyCode,
+              password: password,
+              confirm: confirm,
+              agreement: false
+            }}
           >
             <Form.Item
               name="email"
-              initialValue={email}
               {...validateEmail}
             >
               <Input
@@ -297,8 +321,6 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
                 <Col span={16}>
                   <Form.Item
                     name="captcha"
-                    // noStyle
-                    initialValue={verifyCode}
                     {...validateVerify}
                   >
                     <Input
@@ -325,7 +347,6 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
             <Form.Item
               name="password"
               {...validatePassword}
-              initialValue={password}
             >
               <Input.Password
                 size="large"
@@ -341,7 +362,6 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
             <Form.Item
               name="confirm"
               {...validateConfirm}
-              initialValue={confirm}
             >
               <Input.Password
                 size="large"
@@ -378,4 +398,4 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
   }
 }
 
-export default Register;
+export default withRouter(Register);

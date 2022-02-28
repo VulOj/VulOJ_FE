@@ -22,10 +22,6 @@ interface IHeaderState {
 }
 
 class Header extends React.Component<IHeaderProp, IHeaderState> {
-  constructor(props: IHeaderProp) {
-    super(props);
-
-  }
 
   handleClick = (e: any) => {
     this.props.navigate(e.key);

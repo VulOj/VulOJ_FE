@@ -32,7 +32,7 @@ service.interceptors.response.use(
         }
     },
     error => {
-        console.log('error');
+        console.log(error.response.status);
         return Promise.reject(error);
     }
 );

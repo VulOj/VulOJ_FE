@@ -159,13 +159,16 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
 
           <Form
             name="login"
-            initialValues={{ remember: true }}
             onFinish={this.handleFinish}
             autoComplete="off"
+            initialValues={{ 
+              remember: false,
+              email: email,
+              password: password
+            }}
           >
             <Form.Item
               name="email"
-              initialValue={email}
               {...validateEmail}
             >
               <Input
@@ -177,7 +180,6 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
             </Form.Item>
             <Form.Item
               name="password"
-              initialValue={password}
               {...validatePassword}
             >
               <Input.Password
