@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import styles from '../styles/Login.module.scss';
@@ -43,12 +43,15 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
     this.isFirstSubmit = false;
 
     if (!this.validate('all')('')) {
-      return ;
+      return;
     }
 
-    login(form.email, form.passwd).then(
+    const { email, password } = this.state;
+    login(email, password).then(
       response => {
         console.log(response);
+        message.success('登陆成功！');
+        set('token', response.data.token);
       },
       reason => {
 
@@ -118,7 +121,7 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
       }
 
       case 'all': {
-        const {password, email} = this.state;
+        const { password, email } = this.state;
         const validate = this.validate;
         let v = validate('password')(password);
         v = validate('email')(email) && v;
@@ -137,13 +140,13 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
 
     switch (name) {
       case 'email':
-        this.setState({email: value});
+        this.setState({ email: value });
         break;
 
       case 'password':
-        this.setState({password: value});
+        this.setState({ password: value });
         break;
-    
+
       default:
         break;
     }
@@ -161,7 +164,7 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
             name="login"
             onFinish={this.handleFinish}
             autoComplete="off"
-            initialValues={{ 
+            initialValues={{
               remember: false,
               email: email,
               password: password

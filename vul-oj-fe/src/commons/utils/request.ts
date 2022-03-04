@@ -14,6 +14,13 @@ service.interceptors.request.use(
             (config as any).headers['Authorization'] = token;
         }
 
+        // 添加请求头
+        if (config.method === 'post') {
+            if ((config as any).headers['Content-Type'] === undefined || (config as any).headers['Content-Type'] === null) {
+                (config as any).headers['Content-Type'] = 'application/x-www-form-urlencoded';
+            }
+        }
+
         return config;
     },
     error => {
@@ -32,7 +39,6 @@ service.interceptors.response.use(
         }
     },
     error => {
-        console.log(error.response.status);
         return Promise.reject(error);
     }
 );

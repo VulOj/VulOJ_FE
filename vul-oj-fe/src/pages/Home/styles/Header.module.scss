@@ -11,6 +11,7 @@ $blue-primary: #2196F3;
     width: 100%;
     max-width: 1050px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 .header_logo {
@@ -18,7 +19,7 @@ $blue-primary: #2196F3;
     max-width: 25%;
     margin-right: 50px;
     float: left;
-    line-height: $header-height;
+    line-height: $header-height - 4;
     img {
         height: 35px;
         margin: auto;
@@ -30,7 +31,7 @@ $blue-primary: #2196F3;
 .header_tab_user {
     box-sizing: border-box;
     height: $header-height;
-    max-width: 75%;
+    // max-width: 75%;
 }
 
 .header_tab_left {
@@ -42,39 +43,7 @@ $blue-primary: #2196F3;
     float: right;
 }
 
-.header_item {
-    display: inline-block;
-    min-width: $header-height;
-    height: $header-height;
-    padding: 0 12px;
-    line-height: $header-height;
-    text-align: center;
-    font-size: 16px;
-    cursor: pointer;
-    a {
-        height: $header-height;
-        color: #212121;
-    }
-}
-
-.header_item_active {
-    position: relative;
-    a {
-        color: $blue-primary;
-    }
-    // 使用伪类添加下边框
-    &::after {
-        content: '';
-        position: absolute;
-        left: 12px;
-        right: 12px;
-        bottom: 0;
-        height: 2px;
-        background: $blue-primary;
-    }
-}
-
 .header_tab_user {
-    box-sizing: border-box;
-    width: 30px;
+    padding-top: 12px;
+    width: 40px;
 }

@@ -90,7 +90,7 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
       response => {
         console.log(response);
         message.success(response.data.msg);
-        this.props.navigate('login');
+        this.props.navigate('/login');
       },
       reason => {
         console.log(reason);
@@ -168,11 +168,10 @@ class Register extends React.Component<IRegisterProp, IRegisterState> {
       sendVerifyCode(email).then(
         value => {
           message.success(value.data.msg);
-        },
-        reason => {
-          message.error(reason.response.msg);
         }
-      );
+      ).catch(reason => {
+        message.error(reason.toString());
+      })
 
       // 60秒后重新发送验证码
       this.setState({

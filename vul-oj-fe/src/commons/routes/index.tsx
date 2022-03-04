@@ -5,7 +5,7 @@ import Home from "src/pages/Home";
 // 懒加载
 const Login = lazy(() => import('src/pages/Home/views/Login'));
 const Register = lazy(() => import('src/pages/Home/views/Register'));
-const Discuss = lazy(() => import('src/pages/Home/views/Discuss'));
+const Blog = lazy(() => import('src/pages/Home/views/Blog'));
 const Page404 = lazy(() => import('src/pages/Home/views/404'));
 
 const lazyLoad = (children: ReactNode) => {
@@ -35,7 +35,7 @@ const router: RouteObject[] = [
       },
       {
         path: 'discuss',
-        element: lazyLoad(<Discuss />),
+        element: lazyLoad(<Blog />),
       },
       {
         path: '*',

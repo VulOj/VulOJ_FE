@@ -4,7 +4,7 @@ import styles from '../styles/Header.module.scss'
 
 import logo from 'src/commons/images/VULOJ_LOGO.png'
 import { UserOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
+import { Avatar, Menu } from 'antd';
 import { Link, NavigateFunction } from 'react-router-dom';
 import { withRouter } from 'src/commons/utils/withRouter';
 
@@ -64,14 +64,7 @@ class Header extends React.Component<IHeaderProp, IHeaderState> {
           </div>
 
           <div className={styles['header_tab_user']}>
-            <UserOutlined style={{
-              width: '100%',
-              display: 'block',
-              marginTop: 20,
-              fontSize: '22px',
-              textAlign: 'center',
-              cursor: 'pointer'
-            }} />
+            <Avatar size='large' icon={<UserOutlined />} style={{ margin: 'auto auto' }}/>
           </div>
 
           <div className={styles['header_tab_right']}>

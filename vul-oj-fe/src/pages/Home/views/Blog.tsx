@@ -1,24 +1,27 @@
+import { UserOutlined } from "@ant-design/icons";
 import { Button, Col, Radio, Row, Tabs } from "antd";
+import Avatar from "antd/lib/avatar/avatar";
 import Search from "antd/lib/input/Search";
-import React from "react";
+import React, { ReactNode } from "react";
+import { Link } from "react-router-dom";
 import { IBlockTag } from "src/commons/interface";
 
 // import publicStyles from 'src/commons/styles/public.module.scss'
-import styles from '../styles/Discuss.module.scss'
+import styles from '../styles/Blog.module.scss'
 
 const { TabPane } = Tabs;
 
-interface IDiscussProp {
+interface IBlogProp {
 }
 
-interface IDiscussState {
+interface IBlogState {
   currentBlock: string;
 }
 
-class Discuss extends React.Component<IDiscussProp, IDiscussState> {
+class Blog extends React.Component<IBlogProp, IBlogState> {
   blockTags: Array<IBlockTag>;
 
-  constructor(props: IDiscussProp) {
+  constructor(props: IBlogProp) {
     super(props);
 
     this.blockTags = [
@@ -60,7 +63,17 @@ class Discuss extends React.Component<IDiscussProp, IDiscussState> {
                 size='large'
               >
                 <TabPane tab="最新" key="1" >
-
+                  <Article
+                    title='测试'
+                    time='13:14'
+                    author='沈博宇'
+                    avatar={<UserOutlined />}
+                    likes={1}
+                    collects={1}
+                    comments={1}
+                  >
+                    sassa
+                  </Article>
                 </TabPane>
                 <TabPane tab="最热" key="2">
 
@@ -101,4 +114,42 @@ class Discuss extends React.Component<IDiscussProp, IDiscussState> {
   }
 }
 
-export default Discuss;
+export default Blog;
+
+
+interface IArticleProp {
+  title: string,
+  time: string,
+  author: string,
+  avatar: ReactNode,
+  likes: number,
+  collects: number,
+  comments: number,
+  children?: any
+}
+
+// 博文列表项目
+function Article(props: IArticleProp) {
+
+
+  return (
+    <div>
+      <div className={styles['article_inner']}>
+        <div className={styles['article_avatar']}>
+          <Avatar size='large' icon={props.avatar} style={{ display: 'block' }} />
+        </div>
+
+        <div className={styles['article_content']}>
+          <div>
+            <span className={styles['article_content_author']}>
+              <Link to=''>{props.author}</Link>
+            </span>
+            <span className={styles['article_content_author_time']}>
+              发布于{props.time}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
