@@ -64,7 +64,9 @@ class Header extends React.Component<IHeaderProp, IHeaderState> {
           </div>
 
           <div className={styles['header_tab_user']}>
-            <Avatar size='large' icon={<UserOutlined />} style={{ margin: 'auto auto' }}/>
+            <Link to='profile'>
+              <Avatar size='large' icon={<UserOutlined />} style={{ margin: 'auto auto' }} />
+            </Link>
           </div>
 
           <div className={styles['header_tab_right']}>

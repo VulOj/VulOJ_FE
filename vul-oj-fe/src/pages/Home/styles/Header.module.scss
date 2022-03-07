@@ -1,5 +1,5 @@
 $header-height: 64px;
-$blue-primary: #2196F3;
+
 .header {
     position: relative;
     background: #fff;
@@ -31,7 +31,6 @@ $blue-primary: #2196F3;
 .header_tab_user {
     box-sizing: border-box;
     height: $header-height;
-    // max-width: 75%;
 }
 
 .header_tab_left {

@@ -6,12 +6,14 @@ const service = axios.create({
     timeout: 60 * 1000
 });
 
+// 请求拦截器
 service.interceptors.request.use(
     config => {
         let token = get('token');
 
+        // 添加token
         if (token) {
-            (config as any).headers['Authorization'] = token;
+            (config as any).headers['token'] = token;
         }
 
         // 添加请求头
@@ -29,6 +31,7 @@ service.interceptors.request.use(
     }
 );
 
+// 响应拦截器
 service.interceptors.response.use(
     response => {
         if (response.status >= 200 && response.status < 300) {
