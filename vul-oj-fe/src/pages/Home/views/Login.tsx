@@ -52,9 +52,13 @@ class Login extends React.Component<ILoginProp, ILoginStatus> {
         console.log(response);
         message.success('登陆成功！');
         set('token', response.data.token);
+        set('email', email);
+        set('isFirstOpen', 'true')
+        window.location.href = 'home';
       },
       reason => {
-
+        console.log(reason);
+        message.error(reason.response.data.msg);
       }
     )
 

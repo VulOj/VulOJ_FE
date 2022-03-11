@@ -40,9 +40,16 @@ $header-height: 64px;
 .header_tab_right,
 .header_tab_user {
     float: right;
+    text-align: center;
 }
 
 .header_tab_user {
     padding-top: 12px;
     width: 40px;
+}
+
+.header_tab_username {
+    line-height: $header-height - 2;
+    font-size: 16px;
+    padding-right: 14px;
 }
