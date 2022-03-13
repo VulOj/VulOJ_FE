@@ -13,6 +13,7 @@ const Page404 = lazy(() => import('src/pages/Home/views/404'));
 
 // 正在加载页面
 function Loading() {
+  
   return (
     <div
       style={{
@@ -52,10 +53,10 @@ const router: RouteObject[] = [
         path: 'home',
         element: lazyLoad(<HomePage />)
       },
-      {
-        path: 'problem',
-        element: <></>
-      },
+      // {
+      //   path: 'problem',
+      //   element: <></>
+      // },
       {
         path: 'discuss',
         element: lazyLoad(<Blog />)
