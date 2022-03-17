@@ -1,11 +1,17 @@
 $dark-primary: rgba(0, 0, 0, 0.85);
 $blue-primary: #1890ff;
+$font-color-light: rgba(0,0,0,.50);
+$font-color-lighter: rgba(0,0,0,.25);
 
 @mixin card {
     background: white;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%);
     border-radius: 8px;
     overflow: hidden;   
+}
+
+@mixin card-content {
+    padding: 24px;
 }
 
 .container {

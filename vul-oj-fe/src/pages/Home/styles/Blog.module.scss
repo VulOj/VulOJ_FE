@@ -35,20 +35,20 @@
     font-size: 12px;
     padding: 0 10px 0 4px;
     * {
-        color: #00000073;
+        color: $font-color-light;
     }
 }
 
 .article_content_author_time {
     font-size: 12px;
-    color: #cccccc;
+    color: $font-color-lighter;
 }
 
 .article_content_badges {
     display: inline-block;
     padding-left: 2px;
     >span {
-        color: #00000073;
+        color: $font-color-light;
         font-size: 13px;
         margin-right: 12px;
         cursor: pointer;
@@ -62,7 +62,7 @@
         }
 
         >a {
-            color: #00000073;
+            color: $font-color-light;
 
             &:hover {
                 color: $blue-primary;
