@@ -1,5 +1,9 @@
 @import "src/commons/styles/public.module.scss";
 
+.user_profile_header {
+    margin-bottom: 12px;
+}
+
 .user_cover {
     height: 240px;
     background: black;
@@ -23,9 +27,21 @@
     padding-top: 16px;
     padding-left: 32px;
 
-    .user_name {
+    .user_name > span {
         font-size: 26px;
         font-weight: 600;
+        line-height: 41px;
+    }
+
+    .user_email {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-right: 35px;
+        > span {
+            line-height: 36px;
+            color: $font-color-light;
+        }
     }
 }
 
@@ -47,8 +63,45 @@
 .user_profile_tab_wrapper {
     padding-left: 14px;
     > ul > li > span {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 500;
-        line-height: 60px;
+        line-height: 50px;
+    }
+}
+
+.self_description {
+    @include card-content;
+
+    .self_description_title {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        display: flex;
+        align-items: center;
+        > span {
+            flex: 1;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
+}
+
+.user_info {
+    @include card-content;
+
+    > div {
+        display: flex;
+        margin-bottom: 10px;
+        font-size: 16px;
+        .user_info_header {
+            flex: 1
+        }
+        .user_info_content {
+            color: $font-color-light;
+        }
+    }
+
+    div:nth-last-child(1) {
+        margin-bottom: 0;
     }
 }
