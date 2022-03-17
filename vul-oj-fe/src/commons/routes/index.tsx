@@ -10,10 +10,11 @@ const UserProfile = lazy(() => import('src/pages/Home/views/UserProfile'));
 const Login = lazy(() => import('src/pages/Home/views/Login'));
 const Register = lazy(() => import('src/pages/Home/views/Register'));
 const Page404 = lazy(() => import('src/pages/Home/views/404'));
+const ProblemList = lazy(() => import('src/pages/Home/views/ProblemList'));
 
 // 正在加载页面
 function Loading() {
-  
+
   return (
     <div
       style={{
@@ -21,8 +22,8 @@ function Loading() {
         paddingTop: '200px'
       }}
     >
-      <Spin 
-        size="large" 
+      <Spin
+        size="large"
         style={{
           width: '100%',
           textAlign: 'center'
@@ -53,10 +54,10 @@ const router: RouteObject[] = [
         path: 'home',
         element: lazyLoad(<HomePage />)
       },
-      // {
-      //   path: 'problem',
-      //   element: <></>
-      // },
+      {
+        path: 'problem',
+        element: lazyLoad(<ProblemList />)
+      },
       {
         path: 'discuss',
         element: lazyLoad(<Blog />)

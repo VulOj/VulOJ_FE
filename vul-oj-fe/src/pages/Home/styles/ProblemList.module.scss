@@ -1,0 +1,28 @@
+@import "src/commons/styles/public.module.scss";
+
+.search_module {
+  display: flex;
+  margin: 30px;
+  justify-items: center;
+
+  h2 {
+    width: 100px;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .search_box {
+    flex: 3;
+  }
+
+  .search_difficulty {
+    margin-left: 15px;
+    width: 100px;
+  }
+
+  .search_tags {
+    margin-left: 15px;
+    flex: 1;
+  }
+}
