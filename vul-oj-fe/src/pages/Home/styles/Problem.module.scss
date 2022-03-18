@@ -1,0 +1,37 @@
+@import "src/commons/styles/public.module.scss";
+
+.search_module {
+  @include card;
+
+  padding: 30px;
+  margin-bottom: 12px;
+  justify-items: center;
+
+  >div {
+    display: flex;
+  }
+
+  >div:nth-child(1) {
+    margin-bottom: 24px;
+  }
+
+  h2 {
+    width: 100px;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .search_box {
+    flex: 3;
+  }
+
+  .search_difficulty {
+    width: 100px;
+  }
+
+  .search_tags {
+    margin-left: 15px;
+    flex: 1;
+  }
+}

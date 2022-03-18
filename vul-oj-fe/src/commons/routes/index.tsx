@@ -10,7 +10,7 @@ const UserProfile = lazy(() => import('src/pages/Home/views/UserProfile'));
 const Login = lazy(() => import('src/pages/Home/views/Login'));
 const Register = lazy(() => import('src/pages/Home/views/Register'));
 const Page404 = lazy(() => import('src/pages/Home/views/404'));
-const ProblemList = lazy(() => import('src/pages/Home/views/ProblemList'));
+const Problem = lazy(() => import('src/pages/Home/views/Problem'));
 
 const router: RouteObject[] = [
   {
@@ -27,7 +27,7 @@ const router: RouteObject[] = [
       },
       {
         path: 'problem',
-        element: lazyLoad(<ProblemList />)
+        element: lazyLoad(<Problem />)
       },
       {
         path: 'discuss',

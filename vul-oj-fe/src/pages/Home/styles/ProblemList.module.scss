@@ -1,28 +1,19 @@
 @import "src/commons/styles/public.module.scss";
 
-.search_module {
-  display: flex;
-  margin: 30px;
-  justify-items: center;
+.problem_list_content {
+  @include card;
+}
 
-  h2 {
-    width: 100px;
-    margin: 0;
-    font-size: 20px;
-    font-weight: 700;
-  }
+.difficulty_box {
+  box-sizing: content-box;
 
-  .search_box {
-    flex: 3;
-  }
-
-  .search_difficulty {
-    margin-left: 15px;
-    width: 100px;
-  }
-
-  .search_tags {
-    margin-left: 15px;
-    flex: 1;
-  }
+  display: inline-block;
+  color: #fff;
+  font-weight: 400;
+  font-size: 12px;
+  height: 20px;
+  line-height: 20px;
+  padding: 1px 10px;
+  
+  border-radius: 11px;
 }
