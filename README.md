@@ -28,13 +28,13 @@
 - **目前本项目的开发工作均在dev分支进行，若需要源码编译等操作，请切换到dev分支**
 
 - 本项目结构如下：
-```
-\
-    email_verification\         // VulOj邮件服务模块
-    vul-oj-fe\                  // VulOj项目主体
-        public\                 // 存放全局资源
-        src\                    // 项目源码
-            commons\            // 存放公共代码
+    ```
+    VulOj_FE\
+        email_verification\         // VulOj邮件服务模块
+        vul-oj-fe\                  // VulOj项目主体
+            public\                 // 存放全局资源
+            src\                    // 项目源码
+                commons\            // 存放公共代码
                 api\            // 存放api函数
                 images\         // 存放全局资源
                 routes\         // 存放路由规则文件
@@ -44,7 +44,7 @@
                 Admin\          // 存放登录模块源码
                 Home\           // 存放主页源码
                 Workspace\      // 存放答题页面源码
-```
+    ```
 
 ## 安装
 
@@ -64,22 +64,25 @@
 
 ### 获取项目依赖
 
+- 获取项目相关依赖。该操作已在项目中配置完成，只需要执行如下命令
     ``` sh
     cd vul-oj-fe
     npm install
     ```
-- 本操作及之后操作请确保在 `\VulOJ_FE\vul-oj-fe` 目录下进行
+- **注：本操作及之后操作请确保在 `\VulOJ_FE\vul-oj-fe` 目录下进行**
 
 ### 本地运行
 
+- 本地运行项目，该操作会在本地的3000端口开启虚拟服务，可以在[http://localhost:3000/](http://localhost:3000/)实时预览项目。若出现端口占用等需要修改默认端口的情况，请参考[create-react-app](https://github.com/facebook/create-react-app)
     ``` sh
     npm start
     ```
+- 若页面出现排版、交互等问题，请检查您的浏览器版本。建议使用最新版Chrome、Edge或FireFox浏览器进行开发或访问
 - 该命令执行后，会在默认浏览器中打开页面。若页面未弹出、需要更换浏览器打开或重新访问页面，需要在浏览器访问[http://localhost:3000/](http://localhost:3000/)
 
 ### 编译项目
 
-- 若需要对项目进行发布，则需要先进行编译操作：
+- 若需要对项目进行发布，则需要先进行编译操作
     ``` sh
     npm run build
     ```
